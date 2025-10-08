@@ -12,7 +12,7 @@ def sum_even_numbers(numbers: list[int]) -> int:
 
 def show_exec_info() -> None:
     print(Path(__file__).resolve())
-    print(os.path.abspath(__file__))  # noqa: PTH100
+    print(os.path.abspath(__file__))
     print(sys.path)
 
 
