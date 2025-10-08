@@ -29,6 +29,9 @@ pre-push:
     lint-check:
       run: ruff check .
 
+    test:
+      run: pytest -v
+
 commit-msg:
   commands:
     message-check:
