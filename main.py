@@ -16,6 +16,6 @@ def show_exec_info() -> None:
     print(sys.path)
 
 
-sum_even_numbers([1, 2, 3])
+sum_even_numbers([1, 2, 3, 4, 5, 6])
 print("--")
 show_exec_info()
