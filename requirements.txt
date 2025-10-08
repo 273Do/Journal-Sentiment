@@ -1,0 +1,5 @@
+ruff
+lefthook
+
+pandas
+matplotlib

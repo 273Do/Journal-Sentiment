@@ -1,0 +1,13 @@
+pre-commit:
+  commands:
+    format:
+      run: ruff format .
+    lint:
+      run: ruff check .
+    fix:
+      run: ruff check . --fix
+
+pre-push:
+  commands:
+    test:
+      run: pytest -v
