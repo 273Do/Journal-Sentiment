@@ -2,11 +2,20 @@
 # 順番に処理が実行される
 # chmod 755 main.sh で実行権限を付与
 
-# 1. AppleJournalEntriesが存在するか確認
-if [ ! -d "AppleJournalEntries" ]; then
-  echo "エラー: AppleJournalEntriesディレクトリが存在しません。"
+
+# 1. 環境変数にENTRY_PATHが設定されているか確認
+ENTRY_PATH=$(cat ".env" | sed -rn 's/^ENTRY_PATH=["'\'']?([^"'\'']*)["'\'']?$/\1/p')
+
+if [ -z "$ENTRY_PATH" ]; then
+  echo "エラー: ENTRY_PATHが設定されていません。.envファイルを確認してください。"
+  exit 1
+fi
+
+# 2. データが存在するか確認
+if [ ! -d "$ENTRY_PATH" ]; then
+  echo "エラー: $ENTRY_PATHディレクトリが存在しません。"
   exit 1
 fi
 
 # 2. エクスポートされたデータをを整形
-python3 src/usecase/data_format/html_to_df.py
+python3 setup.py
