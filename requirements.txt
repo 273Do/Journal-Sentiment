@@ -1,6 +1,8 @@
 ruff
 lefthook
-pytest
+python-dotenv
 
 pandas
 matplotlib
+
+pytest
