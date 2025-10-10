@@ -1,28 +1,57 @@
-import glob
 import os
-import sys
+from datetime import datetime
 
 import pandas as pd
 from dotenv import load_dotenv
 
-from src.schema.data_format.entry_type import EntryType
+from src.schema.data_format.entry_type import EntryType, ParserEntryType
 from src.usecase.data_format.read_html import read_html
 
 load_dotenv()
 
 
-def html_to_df():
-    """HTMLからDataFrameに変換する関数"""
+def html_to_df(files: list[str]) -> pd.DataFrame:
+    """HTMLからDataFrameに変換する関数
 
-    # dfの型を作成
-    df: pd.DataFrame = pd.DataFrame(columns=[EntryType])
+    Args:
+        files: HTMLファイルのパスのリスト
 
-    print(df)
+    Returns:
+        pd.DataFrame: カラム [date, number, title, body] を持つDataFrame
+            - date: datetime.date
+            - number: int
+            - title: str
+            - body: str
+    """
 
-    # AppleJournalEntries/EntriesのHTMLを読み込み、DataFrameに変換
-    files: list[str] = glob.glob(os.getenv("ENTRY_PATH") + "/*.html")
+    # 全レコードを格納するリスト
+    records: list[dict] = []
 
+    # エントリのHTMLを読み込む
     for file in files:
-        entry = read_html(file)
-        print(entry)
-        sys.exit()
+        # htmlをパース
+        entry: ParserEntryType = read_html(file)
+
+        # ファイル名から日付を抽出
+        filename: str = os.path.basename(file)
+        date_str: str = filename[:10]
+        date: datetime = datetime.strptime(date_str, "%Y-%m-%d").date()
+
+        # レコードに登録
+        record: EntryType = {
+            "date": date,
+            "number": None,  # いらないか
+            **entry,
+        }
+
+        records.append(record)
+
+        # 全レコードからDataFrameを作成
+        df: pd.DataFrame = pd.DataFrame(
+            records, columns=list(EntryType.__annotations__.keys())
+        )
+
+        # 日付でdfをソート
+        df_sorted = df.sort_values("date")
+
+    return df_sorted
