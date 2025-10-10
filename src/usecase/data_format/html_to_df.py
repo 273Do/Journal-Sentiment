@@ -1,33 +1,28 @@
 import glob
+import os
+import sys
 
 import pandas as pd
+from dotenv import load_dotenv
+
+from src.schema.data_format.entry_type import EntryType
+from src.usecase.data_format.read_html import read_html
+
+load_dotenv()
 
 
 def html_to_df():
     """HTMLからDataFrameに変換する関数"""
 
     # dfの型を作成
-    df = pd.DataFrame(
-        columns=[
-            "date",  # 日付
-            "number",  # 番号
-            "title",  # タイトル
-            "entry",  # 本文
-        ]
-    ).astype(
-        {
-            "date": "datetime64[ns]",
-            "number": "int64",
-            "title": "string",
-            "entry": "string",
-        }
-    )
+    df: pd.DataFrame = pd.DataFrame(columns=[EntryType])
+
     print(df)
 
     # AppleJournalEntries/EntriesのHTMLを読み込み、DataFrameに変換
-    files = glob.glob("./tmp/*")
+    files: list[str] = glob.glob(os.getenv("ENTRY_PATH") + "/*.html")
 
     for file in files:
-        print(file)
-
-    print("Converting HTML content to DataFrame")
+        entry = read_html(file)
+        print(entry)
+        sys.exit()
