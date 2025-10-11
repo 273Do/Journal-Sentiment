@@ -2,12 +2,9 @@ import os
 from datetime import datetime
 
 import pandas as pd
-from dotenv import load_dotenv
 
 from src.schema.data_format.entry_type import EntryType, ParserEntryType
 from src.usecase.data_format.read_html import read_html
-
-load_dotenv()
 
 
 def html_to_df(files: list[str]) -> pd.DataFrame:
