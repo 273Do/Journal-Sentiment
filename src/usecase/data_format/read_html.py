@@ -1,4 +1,3 @@
-from datetime import datetime
 from html.parser import HTMLParser
 
 from src.schema.data_format.entry_type import EntryType
@@ -43,8 +42,7 @@ class JournalHTMLParser(HTMLParser):
             and self.current_attrs.get("class") == "pageHeader"
         ):
             # 日付を整形
-            date_str = data.split(" ")[0]
-            self.date = date_format(date_str)
+            self.date = date_format(data)
 
         # タイトルを抽出
         elif self.current_tag == "div" and self.current_attrs.get("class") == "title":
@@ -76,7 +74,7 @@ class JournalHTMLParser(HTMLParser):
     def get_result(self) -> EntryType:
         """抽出結果を辞書形式で返す"""
         return {
-            "date": datetime.strptime(self.date, "%Y-%m-%d").date(),
+            "date": self.date,
             "title": self.title,
             "body": "\n".join(self.body) if self.body else None,
         }
