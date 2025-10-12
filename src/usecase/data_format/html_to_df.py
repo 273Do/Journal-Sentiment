@@ -1,9 +1,6 @@
-import os
-from datetime import datetime
-
 import pandas as pd
 
-from src.schema.data_format.entry_type import EntryType, ParserEntryType
+from src.schema.data_format.entry_type import EntryType
 from src.usecase.data_format.read_html import read_html
 
 
@@ -14,9 +11,8 @@ def html_to_df(files: list[str]) -> pd.DataFrame:
         files: HTMLファイルのパスのリスト
 
     Returns:
-        pd.DataFrame: カラム [date, number, title, body] を持つDataFrame
+        pd.DataFrame: カラム [date, title, body] を持つDataFrame
             - date: datetime.date
-            - number: int
             - title: str
             - body: str
     """
@@ -26,22 +22,10 @@ def html_to_df(files: list[str]) -> pd.DataFrame:
 
     # エントリのHTMLを読み込む
     for file in files:
-        # htmlをパース
-        entry: ParserEntryType = read_html(file)
+        # htmlをパースしてEntryTypeに変換
+        entry: EntryType = read_html(file)
 
-        # ファイル名から日付を抽出
-        filename: str = os.path.basename(file)
-        date_str: str = filename[:10]
-        date: datetime = datetime.strptime(date_str, "%Y-%m-%d").date()
-
-        # レコードに登録
-        record: EntryType = {
-            "date": date,
-            "number": None,  # いらないか
-            **entry,
-        }
-
-        records.append(record)
+        records.append(entry)
 
         # 全レコードからDataFrameを作成
         df: pd.DataFrame = pd.DataFrame(

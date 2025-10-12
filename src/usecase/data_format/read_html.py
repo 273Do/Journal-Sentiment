@@ -1,6 +1,8 @@
 from html.parser import HTMLParser
 
-from src.schema.data_format.entry_type import ParserEntryType
+from src.schema.data_format.entry_type import EntryType
+
+from .date_format import date_format
 
 
 class JournalHTMLParser(HTMLParser):
@@ -10,6 +12,7 @@ class JournalHTMLParser(HTMLParser):
         super().__init__()
 
         # 抽出結果を格納する変数
+        self.date = None
         self.title = None
         self.body = []
 
@@ -33,8 +36,16 @@ class JournalHTMLParser(HTMLParser):
         if not data:
             return
 
+        # 日付を抽出
+        if (
+            self.current_tag == "div"
+            and self.current_attrs.get("class") == "pageHeader"
+        ):
+            # 日付を整形
+            self.date = date_format(data)
+
         # タイトルを抽出
-        if self.current_tag == "div" and self.current_attrs.get("class") == "title":
+        elif self.current_tag == "div" and self.current_attrs.get("class") == "title":
             self.title = data
             self.has_title_div = True
 
@@ -60,15 +71,16 @@ class JournalHTMLParser(HTMLParser):
         elif self.current_tag == "span" and self.current_attrs.get("class") == "s3":
             self.body.append(data)
 
-    def get_result(self) -> ParserEntryType:
+    def get_result(self) -> EntryType:
         """抽出結果を辞書形式で返す"""
         return {
+            "date": self.date,
             "title": self.title,
             "body": "\n".join(self.body) if self.body else None,
         }
 
 
-def read_html(file_path: str) -> ParserEntryType:
+def read_html(file_path: str) -> EntryType:
     """HTMLファイルを読み込み、内容を辞書形式で返す関数
 
     Args:
@@ -76,6 +88,7 @@ def read_html(file_path: str) -> ParserEntryType:
 
     Returns:
         dict: {
+            "date": datetime.date (日付),
             "title": str (タイトル),
             "body": str (本文)
         }

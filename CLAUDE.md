@@ -23,7 +23,17 @@ Journal Sentiment is a tool that analyzes emotional sentiment from iPhone's buil
 pytest -v
 
 # Run specific test file
-pytest tests/test_main.py -v
+pytest tests/usecase/test_html_to_df.py -v
+pytest tests/usecase/test_read_html.py -v
+
+# Run single test function
+pytest tests/usecase/test_read_html.py::test_read_html_pattern1 -v
+```
+
+**Note**: Tests require `pandas` and `pytest` to be installed. If running locally without these dependencies, use Docker:
+```bash
+docker-compose up -d
+docker-compose exec app pytest -v
 ```
 
 ### Linting and Formatting
@@ -66,17 +76,66 @@ docker-compose exec app bash
 
 ## Project Architecture
 
-### Data Pipeline (Planned)
-Based on `fd.md`, the tool is designed to:
-1. Process journal HTML entries from `AppleJournalEntries/Entries/`
-2. Convert data to CSV format in a `result` directory
-3. Allow users to set analysis periods via CLI
-4. Perform 5-level sentiment analysis on journal text per day
-5. Aggregate results by overall, monthly, and day-of-week statistics
-6. Output results to terminal and table format
+### Code Organization
+```
+src/
+├── schema/data_format/
+│   └── entry_type.py          # TypedDict definitions for journal entries
+└── usecase/data_format/
+    ├── read_html.py           # HTML parser for Apple Journal entries
+    ├── html_to_df.py          # Converts HTML files to pandas DataFrame
+    └── date_format.py         # Date string parsing utilities
+```
 
-### Current Implementation Status
-The codebase appears to be in early development with basic test setup. The `main.py` currently contains placeholder functions (`sum_even_numbers`, `show_exec_info`) used for testing the development environment setup.
+### Data Flow
+1. **Input**: HTML files from `AppleJournalEntries/Entries/` (configured via `.env`)
+2. **Processing**:
+   - `read_html()`: Parses individual HTML files using custom HTMLParser
+   - `html_to_df()`: Aggregates multiple entries into pandas DataFrame
+3. **Output**: CSV file saved to `results/` directory (configured via `.env`)
+
+### HTML Parsing Strategy
+The parser (`read_html.py`) handles two different Apple Journal HTML patterns:
+- **Pattern 1**: `<div class='title'>` (title) + `<span class="s2">` (body)
+- **Pattern 2**: `<span class="s2">` (title) + `<span class="s3">` (body)
+
+The `JournalHTMLParser` class automatically detects which pattern is used by checking for the presence of `<div class='title'>`.
+
+### Type System
+- `EntryType`: Complete entry with date, title, and body
+- `ParserEntryType`: Subset returned by HTML parser (title and body only)
+- Date extraction happens at two levels:
+  - From HTML content: `<div class="pageHeader">YYYY年MM月DD日</div>`
+  - From filename: `YYYY-MM-DD_タイトル.html`
+
+### Running the Main Pipeline
+```bash
+# Execute the data formatting pipeline
+./main.sh
+# Or directly:
+python3 setup.py
+```
+
+The `main.sh` script:
+1. Validates environment variables (`ENTRY_PATH`, `OUTPUT_PATH`)
+2. Checks that the entry directory exists
+3. Creates output directory if needed
+4. Runs `setup.py` to convert HTML → CSV
+
+### Environment Configuration
+Create a `.env` file with:
+```bash
+ENTRY_PATH=AppleJournalEntries/Entries  # Path to HTML journal entries
+OUTPUT_PATH=results                      # CSV output directory
+```
+
+### Future Implementation (from fd.md)
+The following features are planned but not yet implemented:
+- CLI for setting analysis periods
+- 5-level sentiment analysis on journal text
+- Aggregation by overall, monthly, and day-of-week statistics
+- Visualization with matplotlib
+- Terminal output of sentiment distribution and statistics
 
 ## CI/CD
 
