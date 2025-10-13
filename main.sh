@@ -26,3 +26,6 @@ fi
 # 3. エクスポートされたデータを整形
 mkdir -p $OUTPUT_PATH
 python3 setup.py
+
+# 4. データをもとに感情分析を実行
+python3 main.py
