@@ -29,4 +29,6 @@ def csv_to_df(file: str) -> pd.DataFrame:
     columns = list(AnalysisDataType.__annotations__.keys())
     df = df[columns]
 
+    print(df.head())
+
     return df
