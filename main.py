@@ -1,21 +1,11 @@
 import os
-import sys
-from pathlib import Path
 
+from dotenv import load_dotenv
 
-def sum_even_numbers(numbers: list[int]) -> int:
-    """Given a list of integers, return the sum of all even numbers in the list."""
-    result = sum(num for num in numbers if num % 2 == 0)
-    print(result)
-    return result
+from src.usecase.data_format.csv_to_df import csv_to_df
 
+load_dotenv()
 
-def show_exec_info() -> None:
-    print(Path(__file__).resolve())
-    print(os.path.abspath(__file__))
-    print(sys.path)
+print("📖 解析用にデータを整形")
 
-
-sum_even_numbers([1, 2, 3, 4, 5, 6])
-print("--")
-show_exec_info()
+df = csv_to_df(os.getenv("OUTPUT_PATH") + "/entry.csv")
