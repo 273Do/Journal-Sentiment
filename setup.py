@@ -14,6 +14,6 @@ files: list[str] = glob.glob(os.getenv("ENTRY_PATH") + "/*.html")
 
 df = html_to_df(files)
 
-print("📖 データをcsvに出力")
+print("💾 データをcsvに出力")
 
 df.to_csv(os.getenv("OUTPUT_PATH") + "/entry.csv")
