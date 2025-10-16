@@ -18,6 +18,8 @@ def csv_to_df(file: str) -> pd.DataFrame:
             - bodyCount: int
     """
 
+    print("📖 解析用にデータを整形")
+
     # CSVを読み込む
     df: pd.DataFrame = pd.read_csv(file)
 

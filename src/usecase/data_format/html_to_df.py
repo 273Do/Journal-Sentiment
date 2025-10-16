@@ -17,6 +17,8 @@ def html_to_df(files: list[str]) -> pd.DataFrame:
             - body: str
     """
 
+    print("🚀 HTML から DataFrame への変換スクリプトを開始")
+
     # 全レコードを格納するリスト
     records: list[dict] = []
 
