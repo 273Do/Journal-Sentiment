@@ -10,5 +10,6 @@ dependencies = [
     "python-dotenv",
     "pandas",
     "matplotlib",
-    "pytest"
+    "pytest",
+    "asari>=0.2.0",
 ]
