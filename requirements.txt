@@ -1,8 +1,0 @@
-ruff
-lefthook
-python-dotenv
-
-pandas
-matplotlib
-
-pytest
