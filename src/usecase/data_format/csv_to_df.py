@@ -10,7 +10,7 @@ def csv_to_df(file: str) -> pd.DataFrame:
         file: CSVファイルのパス
 
     Returns:
-        pd.DataFrame: カラム [date, title, body, titleCount, bodyCount] を持つDataFrame
+        pd.DataFrame: カラム AnalysisDataType を持つDataFrame
             - date: datetime.date
             - title: str
             - body: str
@@ -18,7 +18,7 @@ def csv_to_df(file: str) -> pd.DataFrame:
             - bodyCount: int
     """
 
-    print("📖 解析用にデータを整形")
+    print("\n📖 解析用にデータを整形中...")
 
     # CSVを読み込む
     df: pd.DataFrame = pd.read_csv(file)
