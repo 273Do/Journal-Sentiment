@@ -16,7 +16,10 @@ class AnalysisDataType(EntryType):
 class ResultDataType(AnalysisDataType):
     """解析結果用データの型定義
 
-    AnalysisDataTypeを継承し、sentimentフィールドを追加
+    AnalysisDataTypeを継承し、sentimentScoreフィールドを追加
+    negative: 1
+    neutral: 3
+    positive: 5
     """
 
-    sentiment: Literal[1, 2, 3, 4, 5]  # 5 段階感情
+    sentimentScore: Literal[1, 2, 3, 4, 5]  # 5 段階感情
