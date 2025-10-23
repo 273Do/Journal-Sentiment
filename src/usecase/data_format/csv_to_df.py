@@ -1,6 +1,6 @@
 import pandas as pd
 
-from src.schema.data_format.analysis_data_type import AnalysisDataType
+from src.schema.analysis.analysis_data_type import AnalysisDataType
 
 
 def csv_to_df(file: str) -> pd.DataFrame:
