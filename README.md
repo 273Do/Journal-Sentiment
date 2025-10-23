@@ -2,6 +2,10 @@
 
 Journal Sentiment は iPhone に標準搭載されている「ジャーナル」のデータを使用して、日々の記録から感情分析を行うツールです。
 
+## 使用モデル
+
+[koheiduck/bert-japanese-finetuned-sentiment](https://huggingface.co/koheiduck/bert-japanese-finetuned-sentiment)
+
 ## 使い方
 
 0. (下準備) docker デスクトップをインストールし、main.sh と同じ階層に移動してから`docker compose build`でコンテナを作成した後、`docker compose up`でコンテナを起動します。
