@@ -1,7 +1,7 @@
 import pandas as pd
 from transformers import pipeline
 
-from src.schema.analysis.analysis_data_type import ResultDataType
+from src.schema.analysis.analysis_data_type import ResultDataType, SentimentResult
 from src.usecase.analysis.convert_score import convert_to_5_scale
 
 # 日本語感情分析モデル（positive/negative）
@@ -43,7 +43,7 @@ def sentiment_analysis(analysis_df: pd.DataFrame) -> pd.DataFrame:
         text = entry["body"]
 
         # スコアを格納
-        result = sentiment_pipeline(text)[0]
+        result: SentimentResult = sentiment_pipeline(text)[0]
         sentiment_score = convert_to_5_scale(result)
         sentiments.append(sentiment_score)
 

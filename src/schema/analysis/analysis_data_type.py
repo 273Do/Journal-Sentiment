@@ -1,6 +1,13 @@
-from typing import Literal
+from typing import Literal, TypedDict
 
 from src.schema.data_format.entry_type import EntryType
+
+
+class SentimentResult(TypedDict):
+    """感情分析の結果データの型"""
+
+    label: str
+    score: float
 
 
 class AnalysisDataType(EntryType):

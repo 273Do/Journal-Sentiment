@@ -1,7 +1,9 @@
 from typing import Literal
 
+from src.schema.analysis.analysis_data_type import SentimentResult
 
-def convert_to_5_scale(result: dict) -> Literal[1, 2, 3, 4, 5]:
+
+def convert_to_5_scale(result: SentimentResult) -> Literal[1, 2, 3, 4, 5]:
     """transformersの結果を5段階評価に変換
 
     Args:
