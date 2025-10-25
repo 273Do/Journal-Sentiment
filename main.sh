@@ -27,5 +27,7 @@ fi
 mkdir -p $OUTPUT_PATH
 python3 setup.py
 
+# TODO: ここで日付レンジを受け付ける
+
 # 4. データをもとに感情分析を実行
 python3 main.py

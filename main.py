@@ -1,21 +1,25 @@
 import os
-import sys
-from pathlib import Path
 
+from dotenv import load_dotenv
 
-def sum_even_numbers(numbers: list[int]) -> int:
-    """Given a list of integers, return the sum of all even numbers in the list."""
-    result = sum(num for num in numbers if num % 2 == 0)
-    print(result)
-    return result
+from src.usecase.analysis.sentiment import sentiment_analysis
+from src.usecase.data_format.csv_to_df import csv_to_df
 
+load_dotenv()
 
-def show_exec_info() -> None:
-    print(Path(__file__).resolve())
-    print(os.path.abspath(__file__))
-    print(sys.path)
+print("=" * 50)
+print("🚀 感情分析処理を開始")
 
+# 解析用にデータを整形
+analysis_df = csv_to_df(os.getenv("OUTPUT_PATH") + "/entry.csv")
 
-sum_even_numbers([1, 2, 3, 4, 5, 6])
-print("--")
-show_exec_info()
+# 感情評価データを出力
+sentiment_df = sentiment_analysis(analysis_df)
+
+# 月別感情分布(5段階)を解析
+print("📊 月別感情分布(5段階)を解析中...")
+# TODO: 実装予定
+
+print("=" * 50)
+print("✨ 全ての処理が完了しました")
+print("=" * 50)
