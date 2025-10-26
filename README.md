@@ -16,4 +16,4 @@ Journal Sentiment は iPhone に標準搭載されている「ジャーナル」
 
 3. `cp -n .env.example .env`で環境変数ファイルをコピーします。ジャーナルのパスやデータ出力先のパスはここで設定できます。
 
-4. コマンド`chmod +x main.sh`の後に`./main.sh`を実行します。
+4. コマンド`chmod +x main.sh`の後に`./main.sh`を実行します。初回時はモデルのロードが入るので時間がかかります。
