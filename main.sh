@@ -36,15 +36,16 @@ if [[ ! -f "$entry_csv_file" ]]; then
   exit 1
 fi
 
-echo "解析に使用するjournalの期間を指定してください"
-
 source setup/date_format.sh
-get_entry_range "$entry_csv_file"
 
-read -p "start date : " start_date
-read -p "end date : " end_date
+# 日付範囲を取得（YYMMDD形式）
+dates=$(get_entry_range "$entry_csv_file")
+min_date=$(echo $dates | awk '{print $1}')
+max_date=$(echo $dates | awk '{print $2}')
 
-echo $start_date $end_date
+echo "範囲: $min_date ~ $max_date"
+read -p "解析開始日を選択してください : " start_date
+read -p "解析終了日を選択してください : " end_date
 
 # 5. データをもとに感情分析を実行
-python3 main.py
+python3 main.py $start_date $end_date

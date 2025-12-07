@@ -1,4 +1,5 @@
 import os
+import sys
 
 from dotenv import load_dotenv
 
@@ -6,6 +7,13 @@ from src.usecase.analysis.sentiment import sentiment_analysis
 from src.usecase.data_format.csv_to_df import csv_to_df
 
 load_dotenv()
+
+args = sys.argv
+
+start_date = args[1]
+end_date = args[2]
+
+print(start_date, end_date)
 
 print("=" * 50)
 print("🚀 感情分析処理を開始")
