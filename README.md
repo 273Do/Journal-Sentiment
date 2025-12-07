@@ -4,6 +4,9 @@ Journal Sentiment は iPhone に標準搭載されている「ジャーナル」
 
 ## 使用モデル
 
+- huggingface からモデルを取得
+- 環境変数に追加
+
 [koheiduck/bert-japanese-finetuned-sentiment](https://huggingface.co/koheiduck/bert-japanese-finetuned-sentiment)
 
 ## 使い方
