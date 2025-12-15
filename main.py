@@ -10,10 +10,13 @@ load_dotenv()
 
 args = sys.argv
 
-start_date = args[1]
-end_date = args[2]
+selected_start = args[1]
+selected_end = args[2]
+min_date = args[3]
+max_date = args[4]
 
-print(start_date, end_date)
+# 入力された日付が正しい日付かチェック(YYYYMMDD形式、データの範囲かどうかチェック)
+# [start_date, end_date] = check_date(selected_start, selected_end, min_date, max_date)
 
 print("=" * 50)
 print("🚀 感情分析処理を開始")
@@ -22,7 +25,11 @@ print("🚀 感情分析処理を開始")
 analysis_df = csv_to_df(os.getenv("OUTPUT_PATH") + "/entry.csv")
 
 # 感情評価データを出力
-sentiment_df = sentiment_analysis(analysis_df)
+sentiment_df = sentiment_analysis(
+    analysis_df,
+    # start_date, end_date
+)
+sentiment_df.to_csv(os.getenv("OUTPUT_PATH") + "/sentiment_entry.csv")
 
 # 月別感情分布(5段階)を解析
 print("📊 月別感情分布(5段階)を解析中...")

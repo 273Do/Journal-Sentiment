@@ -48,4 +48,4 @@ read -p "解析開始日を選択してください : " start_date
 read -p "解析終了日を選択してください : " end_date
 
 # 5. データをもとに感情分析を実行
-python3 main.py $start_date $end_date
+python3 main.py $start_date $end_date $min_date $max_date
