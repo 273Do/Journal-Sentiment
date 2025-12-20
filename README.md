@@ -4,6 +4,9 @@ Journal Sentiment は iPhone に標準搭載されている「ジャーナル」
 
 ## 使用モデル
 
+- huggingface からモデルを取得
+- 環境変数に追加
+
 [koheiduck/bert-japanese-finetuned-sentiment](https://huggingface.co/koheiduck/bert-japanese-finetuned-sentiment)
 
 ## 使い方
@@ -16,4 +19,4 @@ Journal Sentiment は iPhone に標準搭載されている「ジャーナル」
 
 3. `cp -n .env.example .env`で環境変数ファイルをコピーします。ジャーナルのパスやデータ出力先のパスはここで設定できます。
 
-4. コマンド`chmod +x main.sh`の後に`./main.sh`を実行します。
+4. コマンド`chmod +x main.sh`の後に`./main.sh`を実行します。初回時はモデルのロードが入るので時間がかかります。

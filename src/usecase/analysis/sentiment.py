@@ -1,14 +1,20 @@
+import os
+
 import pandas as pd
+from dotenv import load_dotenv
 from transformers import pipeline
 
 from src.schema.analysis.analysis_data_type import ResultDataType, SentimentResult
 from src.usecase.analysis.convert_score import convert_to_5_scale
 
+load_dotenv()
+
 # 日本語感情分析モデル（positive/negative）
 # 日本語に特化したBERTモデルを使用
 sentiment_pipeline = pipeline(
     "sentiment-analysis",
-    model="koheiduck/bert-japanese-finetuned-sentiment",
+    # TODO: 環境変数で指定
+    model=os.getenv("BERT"),
 )
 
 
